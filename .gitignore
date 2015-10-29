@@ -13,4 +13,5 @@
 
 /bin/
 
+/.gitignore.bak
 /target/
