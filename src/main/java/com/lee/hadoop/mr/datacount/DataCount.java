@@ -27,13 +27,18 @@ public class DataCount {
 //		job.setMapOutputValueClass(DataBean.class);
 		
 		// hdfs路径从args数组接受
-		FileInputFormat.setInputPaths(job, new Path(args[0]));
+//		FileInputFormat.setInputPaths(job, new Path("hdfs://192.168.8.88:9000/HTTP_20130313143750.dat"));
+//		FileInputFormat.setInputPaths(job, new Path(args[0]));
+		FileInputFormat.setInputPaths(job, new Path("hdfs://centos01:9000/input/test.dat"));
 		
 		job.setReducerClass(DCReducer.class);
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(DataBean.class);
 		
-		FileOutputFormat.setOutputPath(job, new Path(args[1]));
+//		hdfs://192.168.8.88:9000/input/test.dat
+//		hdfs://192.168.8.88:9000/output/result
+		FileOutputFormat.setOutputPath(job, new Path("hdfs://centos01:9000/output/result"));
+//		FileOutputFormat.setOutputPath(job, new Path(args[1]));
 		
 		// 在linux上运行时可以debug的; 本地模式
 		// hadoop三种模式: 
