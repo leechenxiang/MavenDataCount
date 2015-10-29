@@ -1,43 +1,14 @@
-# Windows image file caches
-Thumbs.db
-ehthumbs.db
+/target/
 
-# Folder config file
-Desktop.ini
+/.settings/
+/.classpath
+/.project
 
-# Recycle Bin used on file shares
-$RECYCLE.BIN/
+/**/.idea/
+*.log
+*.lck
+*.iml
+/**/logs/
+*.epoch
 
-# Windows Installer files
-*.cab
-*.msi
-*.msm
-*.msp
-
-# Windows shortcuts
-*.lnk
-
-# =========================
-# Operating System Files
-# =========================
-
-# OSX
-# =========================
-
-.DS_Store
-.AppleDouble
-.LSOverride
-
-# Thumbnails
-._*
-
-# Files that might appear on external disk
-.Spotlight-V100
-.Trashes
-
-# Directories potentially created on remote AFP share
-.AppleDB
-.AppleDesktop
-Network Trash Folder
-Temporary Items
-.apdisk
+/bin/
