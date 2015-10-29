@@ -1,4 +1,4 @@
-/target/
+
 
 /.settings/
 /.classpath
@@ -12,3 +12,5 @@
 *.epoch
 
 /bin/
+
+/target/
