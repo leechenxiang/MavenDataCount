@@ -6,7 +6,9 @@ public class TestGit {
 		
 		System.out.println("Hello Github~");
 		System.out.println("Hello hadoop 2.7");
-		
+	
+//		String a = "13961884846";
+//		System.out.println(a.substring(0, 2));
 	}
 
 }
