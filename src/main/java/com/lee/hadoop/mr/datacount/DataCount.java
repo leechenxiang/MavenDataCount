@@ -44,6 +44,8 @@ public class DataCount {
 //		FileOutputFormat.setOutputPath(job, new Path(args[1]));
 		
 		// 如果不设置，那么还是会把数据分析后放在同一个文件中, 分区就没起作用
+		// 可以设置多个reducer, 即 >2, 但是这样多出来的partitioner在计算后的文件中是空的
+		// 如果 <2, 则报错
 		job.setNumReduceTasks(2);
 		// 设置分区
 		job.setPartitionerClass(carrierOperatorPartitioner.class);
@@ -65,50 +67,9 @@ public class DataCount {
 
 		private static Map<String, Integer> dataSourceMap = new HashMap<String, Integer>();
 		static {
-//			dataSourceMap.put("131", 2);	// 中国联通
-//			dataSourceMap.put("132", 2);	// 中国联通
-//			dataSourceMap.put("133", 2);	// 中国联通
-//			dataSourceMap.put("134", 2);	// 中国联通
-//			                                  
-//			dataSourceMap.put("150", 2);	// 中国联通
-//			dataSourceMap.put("151", 2);	// 中国联通
-//			dataSourceMap.put("152", 2);	// 中国联通
-//			dataSourceMap.put("153", 2);	// 中国联通
-//			dataSourceMap.put("154", 2);	// 中国联通
-//			dataSourceMap.put("155", 2);	// 中国联通
-//			dataSourceMap.put("156", 2);	// 中国联通
-//			dataSourceMap.put("157", 2);	// 中国联通
-//			dataSourceMap.put("158", 2);	// 中国联通
-//			dataSourceMap.put("159", 2);	// 中国联通
-//			
-//			dataSourceMap.put("135", 1);	// 中国移动
-//			dataSourceMap.put("136", 1);	// 中国移动
-//			dataSourceMap.put("137", 1);	// 中国移动
-//			dataSourceMap.put("138", 1);	// 中国移动
-//			dataSourceMap.put("139", 1);	// 中国移动
-//			dataSourceMap.put("138", 1);	// 中国移动
-//			dataSourceMap.put("138", 1);	// 中国移动
-//			dataSourceMap.put("138", 1);	// 中国移动
-//			dataSourceMap.put("138", 1);	// 中国移动
-//			dataSourceMap.put("138", 1);	// 中国移动
-//			dataSourceMap.put("138", 1);	// 中国移动
-//			dataSourceMap.put("138", 1);	// 中国移动
-//			
-//			dataSourceMap.put("180", 3);	// 中国电信
-//			dataSourceMap.put("181", 3);	// 中国电信
-//			dataSourceMap.put("182", 3);	// 中国电信
-//			dataSourceMap.put("183", 3);	// 中国电信
-//			dataSourceMap.put("184", 3);	// 中国电信
-//			dataSourceMap.put("185", 3);	// 中国电信
-//			dataSourceMap.put("186", 3);	// 中国电信
-//			dataSourceMap.put("187", 3);	// 中国电信
-//			dataSourceMap.put("188", 3);	// 中国电信
-//			dataSourceMap.put("189", 3);	// 中国电信
-			
 			dataSourceMap.put("139", 1);
 			dataSourceMap.put("137", 1);
 		}
-		
 		
 		/**
 		 * int 是分区号
@@ -117,21 +78,16 @@ public class DataCount {
 		 */
 		@Override
 		public int getPartition(Text key, DataBean value, int numPartitions) {
-			
 			String mobile = key.toString();
 			String subMobile = mobile.substring(0, 3);
-			
 			// 此处一般需要对接webservice, 或者查询数据库, 但是由于效率太低, 可以把数据放入缓存或者预先读取放入键值对中
 			Integer code = dataSourceMap.get(subMobile);
 			if (code == null) {
 				code = 0;
 			}
-			
 			System.out.println(code);
-			
 			return code;
 		}
-		
 	}
 	
 	public static class DCMapper extends Mapper<LongWritable, Text, Text, DataBean> {
