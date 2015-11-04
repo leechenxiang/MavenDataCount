@@ -22,7 +22,7 @@ public class DataCount {
 		Configuration cfg = new Configuration();
 		Job job = Job.getInstance(cfg);
 		
-		job.setJarByClass(DataBean.class); 
+		job.setJarByClass(DataCount.class); 
 		
 		job.setMapperClass(DCMapper.class);
 		// 如果 k2 v2 与 k3 v3 一一对应, 则下面2行可以省略; 即 reducer<> 的泛型
