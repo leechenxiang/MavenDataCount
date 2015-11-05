@@ -74,7 +74,7 @@ public class DataCount {
 		/**
 		 * int 是分区号
 		 * K2 V2
-		 * numPartitions 又reducer的数量来决定
+		 * numPartitions 由reducer的数量来决定
 		 */
 		@Override
 		public int getPartition(Text key, DataBean value, int numPartitions) {
