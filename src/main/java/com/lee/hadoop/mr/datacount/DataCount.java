@@ -22,6 +22,7 @@ public class DataCount {
 		Configuration cfg = new Configuration();
 		Job job = Job.getInstance(cfg);
 		
+		// main方法所在类设置
 		job.setJarByClass(DataCount.class); 
 		
 		job.setMapperClass(DCMapper.class);
@@ -31,8 +32,8 @@ public class DataCount {
 		
 		// hdfs路径从args数组接受
 //		FileInputFormat.setInputPaths(job, new Path("hdfs://192.168.8.88:9000/HTTP_20130313143750.dat"));
-//		FileInputFormat.setInputPaths(job, new Path(args[0]));
-		FileInputFormat.setInputPaths(job, new Path("hdfs://centos01:9000/input/test.dat"));
+		FileInputFormat.setInputPaths(job, new Path(args[0]));
+//		FileInputFormat.setInputPaths(job, new Path("hdfs://centos01:9000/input/test.dat"));
 		
 		job.setReducerClass(DCReducer.class);
 		job.setOutputKeyClass(Text.class);
@@ -40,8 +41,8 @@ public class DataCount {
 		
 //		hdfs://192.168.8.88:9000/input/test.dat
 //		hdfs://192.168.8.88:9000/output/result
-		FileOutputFormat.setOutputPath(job, new Path("hdfs://centos01:9000/output/result"));
-//		FileOutputFormat.setOutputPath(job, new Path(args[1]));
+//		FileOutputFormat.setOutputPath(job, new Path("hdfs://centos01:9000/output/result"));
+		FileOutputFormat.setOutputPath(job, new Path(args[1]));
 		
 		// 如果不设置，那么还是会把数据分析后放在同一个文件中, 分区就没起作用
 		// 可以设置多个reducer, 即 >2, 但是这样多出来的partitioner在计算后的文件中是空的
