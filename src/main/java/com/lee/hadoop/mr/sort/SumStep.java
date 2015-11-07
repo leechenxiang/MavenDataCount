@@ -1,7 +1,6 @@
 package com.lee.hadoop.mr.sort;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
@@ -24,12 +23,12 @@ public class SumStep {
 		job.setMapperClass(SumMapper.class);
 		job.setMapOutputKeyClass(Text.class);
 		job.setMapOutputValueClass(InfoBean.class);
-		FileInputFormat.setInputPaths(job, new Path("/amount_sort.txt"));
+		FileInputFormat.setInputPaths(job, new Path("hdfs://centos01:9000/amount_sort.dat"));
 		
 		job.setReducerClass(SumReducer.class);
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(InfoBean.class);
-		FileOutputFormat.setOutputPath(job, new Path("/amount_sort_results"));
+		FileOutputFormat.setOutputPath(job, new Path("hdfs://centos01:9000/amount_sort_step1_results"));
 		
 		job.waitForCompletion(true);
 		
@@ -45,15 +44,12 @@ public class SumStep {
 		protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 			String line = value.toString();
 			String[] fields = line.split("\t");
-			if (fields.length == 0) {
-				return;
-			}
 			String account = fields[0];
-			double income = Double.parseDouble(fields[1]);
-			double expenses = Double.parseDouble(fields[2]);
+			double in = Double.parseDouble(fields[1]);
+			double out = Double.parseDouble(fields[2]);
 			
 			k.set(account);
-			v.set(account, income, expenses);
+			v.set(account, in, out);
 			
 			context.write(k, v);
 		}
@@ -67,15 +63,15 @@ public class SumStep {
 		@Override
 		protected void reduce(Text key2, Iterable<InfoBean> val2s, Context context) throws IOException, InterruptedException {
 
-			double incomes = 0;
-			double expensess = 0;
+			double in = 0;
+			double out = 0;
 			
 			for (InfoBean info : val2s) {
-				incomes += info.getIncome();
-				expensess =+ info.getExpenses();
+				in += info.getIncome();
+				out += info.getExpenses();
 			}
 			
-			v.set(key2.toString(), incomes, expensess);
+			v.set("", in, out);
 			
 			context.write(key2, v);
 		}

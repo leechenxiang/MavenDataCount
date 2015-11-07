@@ -3,8 +3,6 @@ package com.lee.hadoop.mr.sort;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.text.NumberFormat;
 
 import org.apache.hadoop.io.WritableComparable;
 
@@ -51,19 +49,21 @@ public class InfoBean implements WritableComparable<InfoBean> {
 	@Override
 	public String toString() {
 		// 在spring中可作为单例
-		NumberFormat currency = NumberFormat.getCurrencyInstance(); //建立货币格式化引用 
-	    NumberFormat percent = NumberFormat.getPercentInstance();  //建立百分比格式化引用 
-	    percent.setMaximumFractionDigits(3); //百分比小数点最多3位 
+//		NumberFormat currency = NumberFormat.getCurrencyInstance(); //建立货币格式化引用 
+//	    NumberFormat percent = NumberFormat.getPercentInstance();  //建立百分比格式化引用 
+//	    percent.setMaximumFractionDigits(3); //百分比小数点最多3位 
 	    
-		return "收入：" + currency.format(income) + "\t支出：" + currency.format(expenses) + "\t利润：" + currency.format(surplus);
+//		return currency.format(income) + "\t" + currency.format(expenses) + "\t" + currency.format(surplus);
+		return this.income + "\t" + this.expenses + "\t" + this.surplus;
 	}
 
+	// 返回1就是从小到大排序
 	@Override
 	public int compareTo(InfoBean o) {
 		if (this.income == o.getIncome()) {
-			return this.expenses > o.getExpenses() ? -1 : 1;
+			return this.expenses > o.getExpenses() ? 1 : -1;
 		} else {
-			return this.income > o.getIncome() ? 1 : -1;
+			return this.income > o.getIncome() ? -1 : 1;
 		}
 	}
 
