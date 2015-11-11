@@ -1,0 +1,34 @@
+推算(逆推)过程如下：
+
+======================================
+
+context.write("hello:a": "1")
+context.write("hello:a": "1")
+context.write("hello:a": "1")				mapper
+
+
+<"hello:a", {1, 1, 1}>
+<"hello:b", {1, 1}>
+<"hello:c", {1, 1}>							shuffle
+
+context.write("hello": "a-3")
+context.write("hello": "b-2")
+context.write("hello": "c-2")				reducer
+
+======================================
+
+context.write("hello": "a-3")
+context.write("hello": "b-2")
+context.write("hello": "c-2")				mapper
+
+
+<"hello": {a-3, b-2, c-2}>					shuffle
+
+
+context.write("hello": "a-3	b-2	c-2")		reducer
+
+
+#想得到的最终结果：
+hello	a-3	b-2	c-2
+jerry	a-1	b-3	c-1
+tom	a-2	b-1	c-1
